@@ -1,3 +1,5 @@
+**Note: This is a patch of [tracing-actix-web](https://docs.rs/tracing-actix-web) to bump up the version of tracing to 0.3.0 (i.e. master on [the github repository](https://github.com/tokio-rs/tracing)). I do not own any rights to this repository.**
+
 <h1 align="center">tracing-actix-web</h1>
 <div align="center">
  <strong>
@@ -69,7 +71,7 @@ fn main() {
 ```
 
 Check out [the examples on GitHub](https://github.com/LukeMathWalker/tracing-actix-web/tree/main/examples) to get a taste of how [`TracingLogger`] can be used to observe and monitor your
-application.  
+application.
 
 # `tracing`: who art thou?
 
@@ -91,12 +93,12 @@ All the spans created _while_ processing the request will be children of the roo
 
 [`tracing`] empowers us to attach structured properties to a span as a collection of key-value pairs.  
 Those properties can then be queried in a variety of tools (e.g. ElasticSearch, Honeycomb, DataDog) to
-understand what is happening in your system.  
+understand what is happening in your system.
 
 # Customisation via [`RootSpanBuilder`]
 
 Troubleshooting becomes much easier when the root span has a _rich context_ - e.g. you can understand most of what
-happened when processing the request just by looking at the properties attached to the corresponding root span.  
+happened when processing the request just by looking at the properties attached to the corresponding root span.
 
 You might have heard of this technique as the [canonical log line pattern](https://stripe.com/blog/canonical-log-lines),
 popularised by Stripe. It is more recently discussed in terms of [high-cardinality events](https://www.honeycomb.io/blog/observability-a-manifesto/)
@@ -145,7 +147,7 @@ let custom_middleware = TracingLogger::<DomainRootSpanBuilder>::new();
 
 There is an issue, though: `client_id` is the _only_ property we are capturing.  
 With `DomainRootSpanBuilder`, as it is, we do not get any of that useful HTTP-related information provided by
-[`DefaultRootSpanBuilder`].  
+[`DefaultRootSpanBuilder`].
 
 We can do better!
 
@@ -172,7 +174,7 @@ let custom_middleware = TracingLogger::<DomainRootSpanBuilder>::new();
 ```
 
 [`root_span!`] is a macro provided by `tracing-actix-web`: it creates a new span by combining all the HTTP properties tracked
-by [`DefaultRootSpanBuilder`] with the custom ones you specify when calling it (e.g. `client_id` in our example).  
+by [`DefaultRootSpanBuilder`] with the custom ones you specify when calling it (e.g. `client_id` in our example).
 
 We need to use a macro because `tracing` requires all the properties attached to a span to be declared upfront, when the span is created.  
 You cannot add new ones afterwards. This makes it extremely fast, but it pushes us to reach for macros when we need some level of
@@ -224,7 +226,7 @@ impl RootSpanBuilder for DomainRootSpanBuilder {
 
 # The [`RequestId`] extractor
 
-`tracing-actix-web` generates a unique identifier for each incoming request, the **request id**.  
+`tracing-actix-web` generates a unique identifier for each incoming request, the **request id**.
 
 You can extract the request id using the [`RequestId`] extractor:
 
@@ -254,8 +256,9 @@ in your `tracing::Subscriber` you will be able to export the root span (and all 
 Check out the [relevant example in the GitHub repository](https://github.com/LukeMathWalker/tracing-actix-web/tree/main/examples/opentelemetry) for reference.
 
 You can find an alternative integration of `actix-web` with OpenTelemetry in [`actix-web-opentelemetry`](https://github.com/OutThereLabs/actix-web-opentelemetry)
+
 - parts of this project were heavily inspired by their implementation. They provide support for metrics
-and instrumentation for the `awc` HTTP client, both out of scope for `tracing-actix-web`.
+  and instrumentation for the `awc` HTTP client, both out of scope for `tracing-actix-web`.
 
 # License
 
@@ -264,14 +267,14 @@ Licensed under either of <a href="LICENSE-APACHE">Apache License, Version 2.0</a
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in `tracing-actix-web` by you, as defined in the Apache-2.0 license, shall be
 dual licensed as above, without any additional terms or conditions.
 
-[`TracingLogger`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.TracingLogger.html
-[`RequestId`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.RequestId.html
-[`RootSpan`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.RootSpan.html
-[`RootSpanBuilder`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/trait.RootSpanBuilder.html
-[`DefaultRootSpanBuilder`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.DefaultRootSpanBuilder.html
-[`DefaultRootSpanBuilder::default`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.DefaultRootSpanBuilder.html#method.default
+[`tracinglogger`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.TracingLogger.html
+[`requestid`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.RequestId.html
+[`rootspan`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.RootSpan.html
+[`rootspanbuilder`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/trait.RootSpanBuilder.html
+[`defaultrootspanbuilder`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.DefaultRootSpanBuilder.html
+[`defaultrootspanbuilder::default`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.DefaultRootSpanBuilder.html#method.default
 [`tracing`]: https://docs.rs/tracing
-[`tracing::Span`]: https://docs.rs/tracing/latest/tracing/struct.Span.html
+[`tracing::span`]: https://docs.rs/tracing/latest/tracing/struct.Span.html
 [`root_span!`]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/macro.root_span.html
 [root span]: https://docs.rs/tracing-actix-web/4.0.0-beta.1/tracing-actix-web/struct.RootSpan.html
 [`actix-web`]: https://docs.rs/actix-web/4.0.0-beta.6/actix_web/index.html
