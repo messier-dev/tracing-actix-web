@@ -55,16 +55,16 @@ tracing-opentelemetry_0_15_pkg = { package = "tracing-opentelemetry", version = 
 
 [dependencies.tracing]
 git = "ssh://git@github.com/tokio-rs/tracing"
-rev = "1c73db2973b83e46c13f0ab426d80c442ebacc34"
+branch = "master"
 
 [dependencies.tracing-futures]
 git = "ssh://git@github.com/tokio-rs/tracing"
-rev = "1c73db2973b83e46c13f0ab426d80c442ebacc34"
+branch = "master"
 
 [dev-dependencies.tracing-subscriber]
 git = "ssh://git@github.com/tokio-rs/tracing"
-rev = "1c73db2973b83e46c13f0ab426d80c442ebacc34"
+branch = "master"
 
 [dev-dependencies.tracing-log]
 git = "ssh://git@github.com/tokio-rs/tracing"
-rev = "1c73db2973b83e46c13f0ab426d80c442ebacc34"
+branch = "master"

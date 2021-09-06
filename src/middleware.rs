@@ -122,7 +122,8 @@ where
     actix_web::dev::forward_ready!(service);
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
-        req.extensions_mut().insert(RequestId::generate());
+        let request_id = RequestId::generate();
+        req.extensions_mut().insert(request_id);
         let root_span = RootSpanType::on_request_start(&req);
 
         let root_span_wrapper = RootSpan::new(root_span.clone());
@@ -132,7 +133,7 @@ where
         Box::pin(
             async move {
                 let outcome = fut.await;
-                RootSpanType::on_request_end(Span::current(), &outcome);
+                RootSpanType::on_request_end(Span::current(), request_id, &outcome);
 
                 #[cfg(feature = "emit_event_on_error")]
                 {

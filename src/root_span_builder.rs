@@ -1,3 +1,4 @@
+use crate::request_id::RequestId;
 use crate::root_span;
 use actix_web::dev::{ServiceRequest, ServiceResponse};
 use actix_web::Error;
@@ -9,7 +10,11 @@ use tracing::Span;
 /// [`TracingLogger`]: crate::TracingLogger
 pub trait RootSpanBuilder {
     fn on_request_start(request: &ServiceRequest) -> Span;
-    fn on_request_end<B>(span: Span, outcome: &Result<ServiceResponse<B>, Error>);
+    fn on_request_end<B>(
+        span: Span,
+        request_id: RequestId,
+        outcome: &Result<ServiceResponse<B>, Error>,
+    );
 }
 
 /// The default [`RootSpanBuilder`] for [`TracingLogger`].
@@ -39,7 +44,7 @@ impl RootSpanBuilder for DefaultRootSpanBuilder {
         root_span!(request)
     }
 
-    fn on_request_end<B>(span: Span, outcome: &Result<ServiceResponse<B>, Error>) {
+    fn on_request_end<B>(span: Span, _: RequestId, outcome: &Result<ServiceResponse<B>, Error>) {
         match &outcome {
             Ok(response) => {
                 if let Some(error) = response.response().error() {

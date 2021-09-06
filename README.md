@@ -1,4 +1,4 @@
-**Note: This is a patch of [tracing-actix-web](https://docs.rs/tracing-actix-web) to bump up the version of tracing to 0.3.0 (i.e. master on [the github repository](https://github.com/tokio-rs/tracing)). I do not own any rights to this repository.**
+**Note: This is a patch of [tracing-actix-web](https://docs.rs/tracing-actix-web) to bump up the version of tracing to 0.3.0 (i.e. master on [the github repository](https://github.com/tokio-rs/tracing)) and to make some useful changes for `messier`. I do not own any rights to this repository.**
 
 <h1 align="center">tracing-actix-web</h1>
 <div align="center">
